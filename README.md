@@ -2,7 +2,7 @@
 
 **Lien du tableau de bord :** (à coller ici une fois en ligne)
 
-**Équipe de 5. Rendu le vendredi 6 novembre à 23 h 59.**
+**Équipe de 5. Rendu le vendredi 6 novembre à 23 h 59. Soutenances les samedi 7 et dimanche 8 novembre.**
 
 Une direction départementale de l'agriculture (fictive) vous confie trois ans de récoltes, de 2023 à 2025, par saison (printemps, automne), département et culture, avec la pluie tombée pendant chaque saison. Le ministère veut savoir quelles cultures pèsent le plus, où les rendements sont les meilleurs, et si la pluie explique les mauvaises années.
 
@@ -18,7 +18,7 @@ Une direction départementale de l'agriculture (fictive) vous confie trois ans d
 1. **`exploration.ipynb`** : toute votre démarche, exécutée, avec ses sorties et ses graphiques : diagnostic, nettoyage, jointures (qui écrivent `donnees/recoltes_propre.csv`), puis une partie par question. C'est le plan de l'exercice sur l'électricité. Des contrôles chiffrés vous disent si votre nettoyage est juste.
 2. **`app.py`** : le tableau de bord Streamlit, **en ligne**, présenté au décideur. Il lit `donnees/recoltes_propre.csv` et ne refait pas le nettoyage.
 3. **`equipe.md`** : qui a fait quoi, et le lien du tableau de bord.
-4. **Une présentation de 5 minutes**, faite avec le tableau de bord en ligne, le jour fixé par l'enseignant.
+4. **Une soutenance**, les samedi 7 et dimanche 8 novembre, après le rendu : présentation de 5 minutes avec le tableau de bord en ligne, puis deux questions individuelles par étudiant.
 
 ### Les questions
 

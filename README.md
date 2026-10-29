@@ -15,7 +15,7 @@ Une direction départementale de l'agriculture (fictive) vous confie trois ans d
 
 ## Ce qu'il faut rendre
 
-1. **`exploration.ipynb`** : toute votre démarche, exécutée, avec ses sorties et ses graphiques : diagnostic, nettoyage (qui écrit `donnees/recoltes_propre.csv`), jointures, puis une partie par question. Des contrôles chiffrés vous disent si votre nettoyage est juste.
+1. **`exploration.ipynb`** : toute votre démarche, exécutée, avec ses sorties et ses graphiques : diagnostic, nettoyage, jointures (qui écrivent `donnees/recoltes_propre.csv`), puis une partie par question. C'est le plan de l'exercice sur l'électricité. Des contrôles chiffrés vous disent si votre nettoyage est juste.
 2. **`app.py`** : le tableau de bord Streamlit, **en ligne**, présenté au décideur. Il lit `donnees/recoltes_propre.csv` et ne refait pas le nettoyage.
 3. **`equipe.md`** : qui a fait quoi, et le lien du tableau de bord.
 4. **Une présentation de 5 minutes**, faite avec le tableau de bord en ligne, le jour fixé par l'enseignant.
@@ -48,7 +48,20 @@ uv sync
 code .
 ```
 
-Le tableau de bord se lance sur votre machine avec `uv run streamlit run app.py`, puis s'ouvre sur `http://localhost:8501`. L'`app.py` de départ affiche seulement le fichier brut : mettez-le en ligne dès le premier jour, puis enrichissez-le.
+Le tableau de bord se lance sur votre machine avec `uv run streamlit run app.py`, puis s'ouvre sur `http://localhost:8501`.
+
+## Le tableau de bord, en six étapes
+
+Les mêmes que dans l'exercice sur l'électricité. Après chaque étape, l'application en ligne est mise à jour.
+
+| Étape | Ce qu'on ajoute |
+|---|---|
+| 1 | L'`app.py` de départ, tel quel, mis **en ligne dès le premier jour** |
+| 2 | Lire `donnees/recoltes_propre.csv` avec `@st.cache_data` ; le contexte et la source |
+| 3 | Au moins deux filtres dans la barre latérale |
+| 4 | Au moins trois indicateurs (`st.columns`, `st.metric`) |
+| 5 | `st.tabs` : un onglet par question, avec un graphique titré et une phrase chiffrée |
+| 6 | La conclusion, les limites des données, et les données filtrées dans un `st.expander` |
 
 ## Mettre l'application en ligne
 

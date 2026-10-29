@@ -1,5 +1,7 @@
 # Équipe
 
+**Lien du tableau de bord :**
+
 | Membre | Identifiant GitHub | Rôle principal |
 |---|---|---|
 |  |  |  |

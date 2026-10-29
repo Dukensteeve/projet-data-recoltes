@@ -1,6 +1,8 @@
 # Projet final : les récoltes agricoles
 
-**Équipe de 5. Lancé le jeudi 29 octobre, à rendre le vendredi 6 novembre à 23 h 59.**
+**Lien du tableau de bord :** (à coller ici une fois en ligne)
+
+**Équipe de 5. Rendu le vendredi 6 novembre à 23 h 59.**
 
 Une direction départementale de l'agriculture (fictive) vous confie trois ans de récoltes, de 2023 à 2025, par saison (printemps, automne), département et culture, avec la pluie tombée pendant chaque saison. Le ministère veut savoir quelles cultures pèsent le plus, où les rendements sont les meilleurs, et si la pluie explique les mauvaises années.
 
@@ -10,6 +12,29 @@ Une direction départementale de l'agriculture (fictive) vous confie trois ans d
 | `donnees/cultures.csv` | culture | `culture`, `famille`, `rendement_moyen_t_ha`, `prix_htg_kg` |
 | `donnees/pluies.csv` | année, saison et département | `annee`, `saison`, `departement`, `pluie_mm` |
 | `donnees/departements.csv` | département | `departement`, `chef_lieu`, `population`, `superficie_km2` |
+
+## Ce qu'il faut rendre
+
+1. **`exploration.ipynb`** : toute votre démarche, exécutée, avec ses sorties et ses graphiques : diagnostic, nettoyage (qui écrit `donnees/recoltes_propre.csv`), jointures, puis une partie par question. Des contrôles chiffrés vous disent si votre nettoyage est juste.
+2. **`app.py`** : le tableau de bord Streamlit, **en ligne**, présenté au décideur. Il lit `donnees/recoltes_propre.csv` et ne refait pas le nettoyage.
+3. **`equipe.md`** : qui a fait quoi, et le lien du tableau de bord.
+4. **Une présentation de 5 minutes**, faite avec le tableau de bord en ligne, le jour fixé par l'enseignant.
+
+### Les questions
+
+1. Quelles cultures pèsent le plus, en tonnes puis en valeur (gourdes) ? Le classement change-t-il ?
+2. Où les rendements (tonnes par hectare) sont-ils les meilleurs, culture par culture ?
+3. La pluie explique-t-elle les rendements ? Pour quelles cultures ? Montrez-le avec des nuages de points.
+4. Quelles cultures progressent ou reculent entre 2023 et 2025 ?
+5. Rapportez la production à la population de chaque département : quels départements produisent le plus par habitant ?
+
+### Ce que doit contenir le tableau de bord
+
+- Un titre, le contexte en deux phrases, la source des données.
+- Au moins **3 indicateurs** (`st.metric`) en haut de page.
+- Au moins **2 filtres** dans la barre latérale (`st.sidebar.selectbox`, `st.sidebar.multiselect`), qui changent les indicateurs et les graphiques.
+- Une partie par question (par exemple un onglet avec `st.tabs`) : un graphique titré, ou un tableau, et une phrase qui dit ce qu'on en conclut.
+- Une conclusion : ce qu'il faut retenir, et les limites des données.
 
 ## Démarrer
 
@@ -23,57 +48,63 @@ uv sync
 code .
 ```
 
-## Ce qu'il faut rendre
+Le tableau de bord se lance sur votre machine avec `uv run streamlit run app.py`, puis s'ouvre sur `http://localhost:8501`. L'`app.py` de départ affiche seulement le fichier brut : mettez-le en ligne dès le premier jour, puis enrichissez-le.
 
-Le fichier `donnees/recoltes_propre.csv` est le résultat attendu de `nettoyer` : il permet de commencer les analyses pendant qu'un membre de l'équipe écrit le nettoyage. `nettoyer` doit le reproduire à partir du fichier brut, sans le lire.
+## Mettre l'application en ligne
 
-1. **`analyse.py`** : les 7 fonctions demandées, vérifiées par `uv run test_projet.py`. Leur consigne exacte est dans leur docstring. Ajoutez les vôtres pour le rapport.
-2. **`rapport.ipynb`** : le rapport rédigé, qui répond aux questions ci-dessous avec des tableaux, des graphiques titrés et des phrases. Exécuté du début à la fin avant le dernier push.
-3. **`equipe.md`** : qui a fait quoi.
-4. **Une présentation de 5 minutes**, 5 diapositives au plus, le jour fixé par l'enseignant.
+Streamlit Community Cloud est gratuit, mais il ne déploie que depuis un dépôt dont vous êtes **administrateur** : le dépôt Classmoji ne convient pas. Un seul membre de l'équipe en fait une copie publique sur son propre compte GitHub, une seule fois, depuis le dossier du dépôt :
 
-### Les fonctions testées
+```bash
+gh repo create projet-data-recoltes --public --source . --remote perso --push
+```
 
-| Fonction | Ce qu'elle renvoie |
-|---|---|
-| `diagnostic(brut)` | Renvoie un dictionnaire : lignes, manquants (total des valeurs manquantes), doublons (lignes en double). |
-| `nettoyer(brut)` | Renvoie un tableau sans doublons ni production manquante, surface et production en int, cultures et départements écrits d'une seule façon. |
-| `enrichir(propre, cultures, pluies)` | Renvoie les récoltes avec la famille et le prix de la culture, la pluie de la saison, et la colonne rendement_t_ha arrondie à 2. |
-| `production_par_culture(propre)` | Renvoie la production totale (tonnes) de chaque culture, de la plus grande à la plus petite. |
-| `valeur_par_departement(propre, cultures)` | Renvoie la valeur de la production de chaque département, en millions de gourdes (production × 1000 × prix au kg), arrondie à 1, de la plus grande à la plus petite. |
-| `correlation_pluie_rendement(propre, cultures, pluies, culture)` | Renvoie la corrélation entre la pluie de la saison et le rendement (t/ha) pour une culture, arrondie à 2 décimales. |
-| `evolution_par_culture(propre)` | Renvoie le tableau culture (lignes) × année (colonnes) de la production totale, avec la colonne variation_% = (2025 / 2023 - 1) × 100 arrondie à 1, triée par variation décroissante. |
+Puis, sur [share.streamlit.io](https://share.streamlit.io) :
 
-### Les questions du rapport
+1. **Continue with GitHub**, et acceptez l'accès à vos dépôts.
+2. **Create app**, puis **Deploy a public app from GitHub**.
+3. Repository : `VOTRE-COMPTE/projet-data-recoltes` ; Branch : `main` ; Main file path : `app.py`.
+4. App URL : un nom court et lisible, par exemple `projet-data-recoltes-votre-nom`.
+5. **Advanced settings** : Python **3.14**, la version de votre machine. Puis **Deploy**.
 
-1. Quelles cultures pèsent le plus, en tonnes puis en valeur (gourdes) ? Le classement change-t-il ?
-2. Où les rendements (tonnes par hectare) sont-ils les meilleurs, culture par culture ?
-3. La pluie explique-t-elle les rendements ? Pour quelles cultures ? Montrez-le avec des nuages de points.
-4. Quelles cultures progressent ou reculent entre 2023 et 2025 ?
-5. Rapportez la production à la population de chaque département : quels départements produisent le plus par habitant ?
+L'application lit `donnees/recoltes_propre.csv` : ce fichier doit être commité, sinon elle plante en ligne.
+
+À chaque modification, on pousse vers les deux dépôts :
+
+```bash
+git add .
+git commit -m "Ajoute la courbe de consommation"
+git push
+git push perso main
+```
+
+L'application en ligne se met à jour seule en une minute environ. Collez son lien en haut de ce README.
+
+Les autres membres poussent seulement vers le dépôt Classmoji (`git push`). Le membre qui a la copie publique fait `git pull`, puis `git push perso main`, pour mettre l'application à jour.
 
 ## Travailler à cinq
 
-Proposition de répartition : un membre pour le diagnostic et `nettoyer`, un pour `enrichir` et les jointures, deux pour les analyses et les graphiques, un pour le rapport et la présentation. Chacun commite son propre travail avec son compte, et tout le monde relit le rapport. Faites `git pull` avant de commencer et avant chaque `git push`.
+Proposition de répartition : un membre pour le diagnostic et le nettoyage, un pour les jointures et les indicateurs, deux pour les analyses et les graphiques, un pour le tableau de bord et sa mise en ligne. Chacun commite son propre travail avec son compte. Faites `git pull` avant de commencer et avant chaque `git push`.
 
-Ne modifiez pas `test_projet.py` ni les fichiers de `donnees/`.
+Ne modifiez pas les fichiers de `donnees/` fournis.
 
 ## Barème proposé (sur 20)
 
 | Élément | Points |
 |---|---|
-| Tests automatiques (`uv run test_projet.py`), au prorata | 6 |
-| Rapport : réponses justes, graphiques lisibles (titre, axes, unités), conclusions prudentes | 8 |
-| Présentation de 5 minutes | 4 |
+| `exploration.ipynb` : démarche complète, nettoyage juste (contrôles), sorties visibles | 6 |
+| Tableau de bord en ligne : indicateurs, filtres, une partie par question, graphiques lisibles, conclusions prudentes | 8 |
+| Présentation de 5 minutes, avec le tableau de bord | 4 |
 | Commits : chaque membre commite son travail, avec des messages clairs | 2 |
 
 ## Si ça coince
 
 | Problème | Solution |
 |---|---|
-| `rejected ... fetch first` au `git push` | Un coéquipier a poussé avant vous : `git pull`, puis `git push` |
-| Un test dit « la fonction renvoie None » | Il reste `pass`, ou il manque `return` |
-| Moins ou plus de lignes après un `merge` | Clés écrites différemment, ou clé en double à droite : comptez avant et après |
-| `ModuleNotFoundError: No module named 'pandas'` | Mauvais noyau : **Select Kernel**, puis `.venv` |
+| `streamlit: command not found` | Lancez-la avec uv : `uv run streamlit run app.py` |
+| `FileNotFoundError: ..._propre.csv` | Exécutez d'abord tout le notebook : c'est lui qui écrit le fichier propre |
+| L'application en ligne affiche « Error running app » | **Manage app**, en bas à droite, montre l'erreur : souvent un fichier non commité ou une version de Python différente |
+| L'application en ligne ne change pas | Vous avez oublié `git push perso main` |
+| `rejected ... fetch first` au `git push` | Quelqu'un a poussé avant vous : `git pull`, puis `git push` |
+| `ModuleNotFoundError: No module named 'pandas'` dans le notebook | Mauvais noyau : **Select Kernel**, puis `.venv` |
 
 Bloqué ? Écrivez un commentaire dans l'issue, avec le message d'erreur en entier.

@@ -96,18 +96,21 @@ Les autres membres poussent seulement vers le dépôt Classmoji (`git push`). Le
 
 ## Travailler à cinq
 
-Proposition de répartition : un membre pour le diagnostic et le nettoyage, un pour les jointures et les indicateurs, deux pour les analyses et les graphiques, un pour le tableau de bord et sa mise en ligne. Chacun commite son propre travail avec son compte. Faites `git pull` avant de commencer et avant chaque `git push`.
+Proposition de répartition : un membre pour le diagnostic et le nettoyage, un pour les jointures et les indicateurs, deux pour les analyses et les graphiques, un pour le tableau de bord et sa mise en ligne. Chacun commite son propre travail avec son compte. Faites `git pull` avant de commencer et avant chaque `git push`. Avant la soutenance, chacun relit tout le projet : les questions individuelles portent sur l'ensemble.
 
 Ne modifiez pas les fichiers de `donnees/` fournis.
 
-## Barème proposé (sur 20)
+## Notation
 
-| Élément | Points |
+Le projet compte pour **70 %** de la note du cours (le TP1 pour 30 %). Il n'y a pas d'examen sur table.
+
+| Élément | Part |
 |---|---|
-| `exploration.ipynb` : démarche complète, nettoyage juste (contrôles), sorties visibles | 6 |
-| Tableau de bord en ligne : indicateurs, filtres, une partie par question, graphiques lisibles, conclusions prudentes | 8 |
-| Présentation de 5 minutes, avec le tableau de bord | 4 |
-| Commits : chaque membre commite son travail, avec des messages clairs | 2 |
+| Présence à la soutenance | 10 % |
+| Le projet : la présentation, et un notebook et un tableau de bord qui fonctionnent | 40 % |
+| Questions individuelles : deux questions par étudiant, sur **tout** le projet | 50 % |
+
+Les questions individuelles portent sur n'importe quelle partie du projet, pas seulement sur la vôtre : chaque membre doit comprendre le nettoyage, les jointures, chaque graphique et le code de `app.py`.
 
 ## Si ça coince
 

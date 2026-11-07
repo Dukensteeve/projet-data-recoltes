@@ -158,6 +158,29 @@ with t3:
 
 # ONGLETS 4 ET 5 : pour l'autre personne 
 with t4:
-    st.info("À compléter : évolution 2023-2025.")
+    st.info("Évolution de la production de chaque culture, de 2023 à 2025")
+    # base = le tableau filtré par les filtres de l'équipe, SANS le filtre sur l'année
+    base = df[df["departement"].isin(filtre["departement"].unique())]
+    premiere, derniere = base["annee"].min(), base["annee"].max()
+
+    prod = base.pivot_table(index="culture", columns="annee", values="production_t", aggfunc="sum")
+    prod["variation_pct"] = ((prod[derniere] / prod[premiere] - 1) * 100).round(1)
+    prod = prod.sort_values("variation_pct", ascending=False)
+
+    st.bar_chart(prod["variation_pct"])
+    st.write(
+        f"4. {prod.index[0]} progresse le plus ({prod['variation_pct'].iloc[0]:+.1f} %) "
+        f"et {prod.index[-1]} recule le plus ({prod['variation_pct'].iloc[-1]:+.1f} %) entre {premiere} et {derniere}.")
 with t5:
-    st.info("À compléter : production par habitant.")
+    st.info("Production par habitant, par département")
+    par_dep = filtre.groupby("departement").agg(
+        production_t=("production_t", "sum"),
+        population=("population", "first"),
+    )
+    par_dep["kg_par_habitant"] = (par_dep["production_t"] * 1000 / par_dep["population"]).round(1)
+    par_dep = par_dep.sort_values("kg_par_habitant", ascending=False)
+
+    st.bar_chart(par_dep["kg_par_habitant"])
+    st.write(
+        f"5. {par_dep.index[0]} produit le plus par habitant ({par_dep['kg_par_habitant'].iloc[0]} kg), "
+        f"et {par_dep.index[-1]} le moins ({par_dep['kg_par_habitant'].iloc[-1]} kg).")

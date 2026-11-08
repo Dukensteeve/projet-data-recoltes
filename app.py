@@ -156,7 +156,7 @@ with t3:
             "C'est un lien, pas une preuve de cause."
         )
 
-# ONGLETS 4 ET 5 : pour l'autre personne 
+# ONGLETS 4 ET 5
 with t4:
     st.info("Évolution de la production de chaque culture, de 2023 à 2025")
     # base = le tableau filtré par les filtres de l'équipe, SANS le filtre sur l'année
@@ -177,10 +177,57 @@ with t5:
         production_t=("production_t", "sum"),
         population=("population", "first"),
     )
-    par_dep["kg_par_habitant"] = (par_dep["production_t"] * 1000 / par_dep["population"]).round(1)
+    nb_annees = filtre["annee"].nunique()
+    par_dep["kg_par_habitant"] = (par_dep["production_t"] * 1000 / nb_annees / par_dep["population"]).round(1)
     par_dep = par_dep.sort_values("kg_par_habitant", ascending=False)
 
     st.bar_chart(par_dep["kg_par_habitant"])
     st.write(
-        f"5. {par_dep.index[0]} produit le plus par habitant ({par_dep['kg_par_habitant'].iloc[0]} kg), "
-        f"et {par_dep.index[-1]} le moins ({par_dep['kg_par_habitant'].iloc[-1]} kg).")
+        f"5. {par_dep.index[0]} produit le plus par habitant ({par_dep['kg_par_habitant'].iloc[0]} kg par an), "
+        f"et {par_dep.index[-1]} le moins ({par_dep['kg_par_habitant'].iloc[-1]} kg par an).")
+
+# 8. CONCLUSION, LIMITES ET DONNÉES FILTRÉES (étape 6)
+st.divider()
+st.header("Conclusion")
+
+st.write(
+    "**Ce qu'il faut retenir** (sur l'ensemble de 2023-2025, tous départements confondus) :"
+)
+st.markdown(
+    "- **Poids** : la banane pèse le plus en tonnes (547 615 t), mais l'igname rapporte "
+    "le plus en gourdes (12 069 millions de HTG), car elle se vend plus cher au kilo. "
+    "Le classement change.\n"
+    "- **Rendements** : aucun département n'est le meilleur partout. Chaque culture a son "
+    "département en tête, et seul le Centre y est deux fois (maïs et sorgho).\n"
+    "- **Pluie** : elle va avec de meilleurs rendements pour toutes les cultures "
+    "(corrélations de 0,42 pour le riz à 0,76 pour le haricot et le maïs).\n"
+    "- **Évolution** : l'igname recule de 32,2 % entre 2023 et 2025.\n"
+    "- **Par habitant** : Grand'Anse produit le plus (81,4 kg par habitant et par an), "
+    "l'Ouest le moins (16,9 kg) à cause de sa forte population."
+)
+
+st.subheader("Limites des données")
+st.markdown(
+    "- **Période courte** : trois ans et deux saisons seulement. Une tendance sur 2023-2025 "
+    "ne dit pas ce qui se passera ensuite.\n"
+    "- **Corrélation n'est pas cause** : la pluie va avec de meilleurs rendements, mais "
+    "d'autres facteurs jouent (sol, semences, irrigation, techniques) et ne sont pas mesurés.\n"
+    "- **Pluie moyenne** : une seule valeur par département et par saison, alors que la pluie "
+    "varie beaucoup à l'intérieur d'un département.\n"
+    "- **Prix fixe** : la valeur est calculée avec un seul prix par culture sur les trois ans. "
+    "Le classement en gourdes ne tient donc pas compte des variations de prix.\n"
+    "- **Population fixe** : une seule valeur par département, sans évolution sur les trois ans.\n"
+    "- **Lignes retirées au nettoyage** : 18 doublons et 14 lignes sans production, "
+    "supprimés pour ne pas inventer de chiffres.\n"
+    "- **Données fictives** : elles servent à s'exercer, pas à décider pour de vrai."
+)
+
+with st.expander("Voir les données filtrées"):
+    st.write(f"{len(filtre):,} lignes correspondent aux filtres choisis.")
+    st.dataframe(filtre, use_container_width=True)
+    st.download_button(
+        "Télécharger ces données (CSV)",
+        filtre.to_csv(index=False).encode("utf-8"),
+        file_name="recoltes_filtrees.csv",
+        mime="text/csv",
+    )
